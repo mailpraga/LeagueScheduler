@@ -16,7 +16,7 @@ public class playerDBHandler extends SQLiteOpenHelper {
     private static playerDBHandler sInstance;
     private SQLiteDatabase db = null;
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "playerDB.db";
     public static final String TABLE_PLAYER = "player";
     public static final String COLUMN_ID = "_id";
@@ -55,13 +55,13 @@ public class playerDBHandler extends SQLiteOpenHelper {
                 COLUMN_NAME + " TEXT, " +
                 COLUMN_MATCHPARTNER + " TEXT, " +
                 COLUMN_MATCHENEMY + " TEXT, " +
-                COLUMN_MATCHPARTNERIND + " INT, " +
-                COLUMN_MATCHENEMYND + " INT, " +
-                COLUMN_WIN + " INT, " +
-                COLUMN_MATCHPLAYED + " INT, " +
-                COLUMN_LOSS + " INT, " +
-                COLUMN_DRAW + " INT, " +
-                COLUMN_POINT + " INT " +
+                COLUMN_MATCHPARTNERIND + " INTEGER, " +
+                COLUMN_MATCHENEMYND + " INTEGER, " +
+                COLUMN_WIN + " INTEGER, " +
+                COLUMN_MATCHPLAYED + " INTEGER, " +
+                COLUMN_LOSS + " INTEGER, " +
+                COLUMN_DRAW + " INTEGER, " +
+                COLUMN_POINT + " INTEGER " +
                 ");";
         db.execSQL(query);
     }
@@ -102,12 +102,12 @@ public class playerDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    void deleteAll()
-    {
-        SQLiteDatabase db= getWritableDatabase();
+    void deleteAll() {
+        SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_PLAYER, null, null);
         db.close();
     }
+
     //Delete a product from the database
     public void deletePlayer(String thePlayerName) {
         SQLiteDatabase db = getWritableDatabase();
@@ -125,7 +125,7 @@ public class playerDBHandler extends SQLiteOpenHelper {
         return dbString;
     }
 
-    public Cursor getCursor(String thePlayerName){
+    public Cursor getCursor(String thePlayerName) {
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_PLAYER + " WHERE 1" + COLUMN_NAME + "=\"" + thePlayerName + "\"";
         Cursor c = db.rawQuery(query, null);
@@ -133,22 +133,21 @@ public class playerDBHandler extends SQLiteOpenHelper {
         return c;
     }
 
-    public String[] getMatchPartner(int id){
+    public String[] getMatchPartner(long id) {
         String[] sArray = {""};
         SQLiteDatabase db = getReadableDatabase();
-        String from[] = { COLUMN_MATCHPARTNER};
+        String from[] = {COLUMN_MATCHPARTNER};
         Cursor c = db.query(TABLE_PLAYER, from, "_id = " + id,
                 null, null, null, null);
-        if(c!=null)
-        {
+        if (c != null) {
             c.moveToFirst();
             String dbString = c.getString(c.getColumnIndex(COLUMN_MATCHPARTNER));
-            sArray = TextUtils.split(dbString,", ");
+            sArray = TextUtils.split(dbString, ", ");
         }
         return sArray;
     }
 
-    public void appendMatchPartner(int id1, int id2){
+    public void appendMatchPartner(long id1, long id2) {
         List<String> sArray = Arrays.asList(getMatchPartner(id1));
         String s = getName(id2);
         sArray.add(s);
@@ -156,52 +155,63 @@ public class playerDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_MATCHPARTNER, s);
-        db.update(TABLE_PLAYER, cv,"_id = " + id1, null);
+        db.update(TABLE_PLAYER, cv, "_id = " + id1, null);
         db.close();
     }
 
-    public String getName(int id){
+    public String getName(long id) {
         String dbString = "";
         SQLiteDatabase db = getReadableDatabase();
         String from[] = {COLUMN_NAME};
         Cursor c = db.query(TABLE_PLAYER, from, "_id = " + id,
                 null, null, null, null);
-        if(c!=null)
-        {
+        if (c != null) {
             c.moveToFirst();
-            int cind = c.getColumnIndex(COLUMN_NAME);
-            dbString = c.getString(cind);
+            dbString = c.getString(c.getColumnIndex(COLUMN_NAME));
         }
         return dbString;
     }
 
-    public int getMatchPartnerInd(int id){
+    public int getMatchPartnerInd(long id) {
         int dbInt = 0;
         SQLiteDatabase db = getReadableDatabase();
         String from[] = {COLUMN_MATCHPARTNERIND};
         Cursor c = db.query(TABLE_PLAYER, from, "_id = " + id,
                 null, null, null, null);
-        if(c!=null)
-        {
+        if (c != null) {
             c.moveToFirst();
             dbInt = c.getInt(c.getColumnIndex(COLUMN_MATCHPARTNERIND));
         }
+
         return dbInt;
     }
 
-    public boolean findMatchPartner(int id1, int id2) {
-        if (getName(id1).equals(getName(id2))) {return true;}
-        if (getMatchPartnerInd(id1)==1) {return false;}
+    public boolean findMatchPartner(long id1, long id2) {
+        if (getName(id1).equals(getName(id2))) {
+            return true;
+        }
+        if (getMatchPartnerInd(id1) == 1) {
+            return false;
+        }
         String[] partner = getMatchPartner(id1);
-        if (getMatchPartnerInd(id1) < partner.length/2){
+        if (getMatchPartnerInd(id1) < partner.length / 2) {
             return Arrays.asList(partner).contains(getName(id2));
-        }else{
-            if (Collections.frequency(Arrays.asList(partner), getName(id2))== 1){
+        } else {
+            if (Collections.frequency(Arrays.asList(partner), getName(id2)) == 1) {
                 return false;
-            }else {
+            } else {
                 return true;
             }
         }
     }
 
+    public long get_lastInsertRowId() {
+        SQLiteDatabase db = getReadableDatabase();
+        final String MY_QUERY = "SELECT last_insert_rowid()";
+        Cursor cur = db.rawQuery(MY_QUERY, null);
+        cur.moveToFirst();
+        long ID = cur.getInt(0);
+        cur.close();
+        return ID;
+    }
 }

@@ -15,6 +15,8 @@ public class enterPlayerName extends Activity  {
     private playerDBHandler pdbHandler;
     private matchDBHandler mdbHandler;
     private int numPlayer;
+    private long firstRowNo;
+    private long lastRowNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +64,13 @@ public class enterPlayerName extends Activity  {
 
     public void scheduler(int TotalNumberOfMatch){
         mdbHandler.deleteAll();
-        int count1;
-        int count2;
-        int count3;
-        int count4 = 1;
+        lastRowNo = pdbHandler.get_lastInsertRowId();
+        firstRowNo = lastRowNo - numPlayer + 1 ;
+
+        long count1;
+        long count2;
+        long count3;
+        long count4 = lastRowNo;
         boolean partner1;
         boolean partner2;
         int tmp;
@@ -112,17 +117,17 @@ public class enterPlayerName extends Activity  {
         }
     }
 
-    public int outerCheck(int in){
-        if(in == numPlayer){
-            return 1;
+    public long outerCheck(long in){
+        if(in == lastRowNo){
+            return firstRowNo;
         } else {
             return in + 1;
         }
     }
 
-    public int interCheck(int in){
-        if(in == numPlayer){
-            return 1;
+    public long interCheck(long in){
+        if(in == lastRowNo){
+            return firstRowNo;
         } else {
             return in + 1;
         }
