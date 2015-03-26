@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.pragjan.leaguescheduler.leagueMatchTable">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="League Match Schedule"
+        android:id="@+id/matchScheduletextView" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/leagueMatchTableListView"
+        android:layout_below="@+id/matchScheduletextView"
+        android:layout_marginTop="20dp"
+        android:layout_above="@+id/goToPointTable"></ListView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Point Table"
+        android:id="@+id/goToPointTable"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/matchScheduletextView"
+        android:layout_alignEnd="@+id/matchScheduletextView"
+        android:onClick="goToPointTable"
+        android:nestedScrollingEnabled="true" />
+
+</RelativeLayout>

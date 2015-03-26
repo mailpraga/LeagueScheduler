@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.pragjan.leaguescheduler.pointTable">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Point Table"
+        android:id="@+id/pointTableTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pointTableListView"
+        android:layout_below="@+id/pointTableTextView"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
+        android:descendantFocusability="beforeDescendants"
+        android:layout_above="@+id/goToleagueMatchTable" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="League Match Table"
+        android:id="@+id/goToleagueMatchTable"
+        android:onClick="goToleagueMatchTable"
+        android:nestedScrollingEnabled="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
