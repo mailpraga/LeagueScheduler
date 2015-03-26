@@ -44,10 +44,10 @@ public class custom_matchTableAdapter extends ArrayAdapter<match> {
 
         String matchNoStr = "Match " + (position+1);
 
-        viewHolder.home1.setText(theMatch.home1);
-        viewHolder.home2.setText(theMatch.home2);
-        viewHolder.guest1.setText(theMatch.guest1);
-        viewHolder.guest2.setText(theMatch.guest2);
+        viewHolder.home1.setText(theMatch.get_home1());
+        viewHolder.home2.setText(theMatch.get_home2());
+        viewHolder.guest1.setText(theMatch.get_guest1());
+        viewHolder.guest2.setText(theMatch.get_guest2());
         return convertView;
     }
 }
