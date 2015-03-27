@@ -7,23 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class custom_pointTableAdapter extends ArrayAdapter<player> {
-    // View lookup cache
-    private static class ViewHolder {
-        TextView playerName;
-        TextView matchPlayed;
-        TextView win;
-        TextView loss;
-        TextView draw;
-        TextView gDiff;
-        TextView point;
-    }
+    private List<player> thePlayer;
 
     public custom_pointTableAdapter(Context context, List<player> thePlayer) {
         super(context, R.layout.custom_pointtablerow, thePlayer);
+        this.thePlayer = thePlayer;
     }
 
     @Override
@@ -58,5 +49,15 @@ public class custom_pointTableAdapter extends ArrayAdapter<player> {
         viewHolder.gDiff.setText("");
         viewHolder.point.setText("" + thePlayer.get_point());
         return convertView;
+    }
+
+    private  class ViewHolder {
+        TextView playerName;
+        TextView matchPlayed;
+        TextView win;
+        TextView loss;
+        TextView draw;
+        TextView gDiff;
+        TextView point;
     }
 }

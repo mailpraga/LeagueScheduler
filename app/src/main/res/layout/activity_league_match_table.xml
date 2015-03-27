@@ -19,17 +19,16 @@
         android:id="@+id/leagueMatchTableListView"
         android:layout_below="@+id/matchScheduletextView"
         android:layout_marginTop="20dp"
-        android:layout_above="@+id/goToPointTable"></ListView>
+        android:layout_above="@+id/goToPointTableButton" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Point Table"
-        android:id="@+id/goToPointTable"
+        android:id="@+id/goToPointTableButton"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/matchScheduletextView"
         android:layout_alignEnd="@+id/matchScheduletextView"
-        android:onClick="goToPointTable"
         android:nestedScrollingEnabled="true" />
 
 </RelativeLayout>

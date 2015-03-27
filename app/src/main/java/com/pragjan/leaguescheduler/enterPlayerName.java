@@ -4,8 +4,8 @@ import android.app.Activity ;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -25,7 +25,30 @@ public class enterPlayerName extends Activity  {
         setContentView(R.layout.activity_enter_player_name);
         numPlayerSpinner = (Spinner) findViewById(R.id.numPlayerSpinner);
         addEntriesToNumPlayerSpinner();
-        numPlayerSpinner.setOnItemSelectedListener(new CustomnumPlayerSpinnerOnItemSelectedListener(this));
+
+        final custom_enterplayernameAdapter enterplayernameAdapter = new custom_enterplayernameAdapter(this,
+                new String[Integer.valueOf(numPlayerSpinner.getSelectedItem().toString())]);
+
+        ListView enterPlayerNameListView = (ListView) findViewById(R.id.enterPlayerNameListView);
+        enterPlayerNameListView.setAdapter(enterplayernameAdapter);
+
+        numPlayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            private int check = 0;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                check = check+1;
+                if(check>1) {
+                    int numberOfPlayer = Integer.valueOf(parent.getItemAtPosition(pos).toString());
+                    enterplayernameAdapter.setListData(new String[numberOfPlayer]);
+                    enterplayernameAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
 
         pdbHandler = playerDBHandler.getInstance(this);
         mdbHandler = matchDBHandler.getInstance(this);
@@ -34,7 +57,7 @@ public class enterPlayerName extends Activity  {
     public void addEntriesToNumPlayerSpinner() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.Number_array, android.R.layout.simple_list_item_single_choice);
+                R.array.Number_array, android.R.layout.simple_spinner_dropdown_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         // Apply the adapter to the spinner
@@ -49,16 +72,14 @@ public class enterPlayerName extends Activity  {
         int TotalNumberOfMatch = numPlayer*(numPlayer-1)/2;
         i.putExtra("TotalNumberOfMatch", numPlayer);
 
-        final ListView playerNameListView = (ListView) findViewById(R.id.enterPlayerNameListView);
+        ListView playerNameListView = (ListView) findViewById(R.id.enterPlayerNameListView);
         String playerName;
-        View playerNameView;
         player thePlayer;
-        List<player> playerNameList  = new ArrayList<player>();
+        List<player> playerNameList  = new ArrayList<>();
 
         pdbHandler.deleteAll();
         for(int item = 0; item < playerNameListView.getAdapter().getCount(); item++){
-            playerNameView = playerNameListView.getChildAt(item);
-            playerName = ((EditText)playerNameView.findViewById(R.id.enterPlayerNameEditText)).getText().toString();
+            playerName = playerNameListView.getAdapter().getItem(item).toString();
             thePlayer = new player(playerName,numPlayer);
             playerNameList.add(thePlayer);
             pdbHandler.addPlayer(thePlayer);
@@ -117,8 +138,8 @@ public class enterPlayerName extends Activity  {
             playerNameList.get(count3).appendMatchPartner(playerNameList.get(count4).get_name());
             playerNameList.get(count4).appendMatchPartner(playerNameList.get(count3).get_name());
 
-            theMatch = new match(playerNameList.get(count1).get_name(),playerNameList.get(count2).get_name(),
-                    playerNameList.get(count3).get_name(), playerNameList.get(count4).get_name());
+            theMatch = new match(playerNameList.get(count1).get_name(),playerNameList.get(count2).get_name(), -1,
+                    playerNameList.get(count3).get_name(), playerNameList.get(count4).get_name(), -1);
             mdbHandler.addMatch(theMatch);
         }
     }

@@ -5,12 +5,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.content.Context;
 import android.content.ContentValues;
-import android.text.TextUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class playerDBHandler extends SQLiteOpenHelper {
 
@@ -89,26 +88,21 @@ public class playerDBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_PLAYER, null, values);
     }
 
-    public void addPlayerList(List<player> thePlayerList){
-        for(int i = 0; i < thePlayerList.size();i++){
-            addPlayer(thePlayerList.get(i));
+    public void addPlayerHashMap(HashMap<String,player> thePlayerHashMap){
+        for (Map.Entry<String, player> entry : thePlayerHashMap.entrySet()) {
+            addPlayer(entry.getValue());
         }
     }
 
-
-    public List<player> getPlayers() {
-        String name = "";
-        int win = 0;
-        int matchPlayed = 0;
-        int loss = 0;
-        int draw = 0;
-        int point = 0;
+    public List<player> getPlayersInList() {
+        String name;
+        int win, matchPlayed, loss, draw, point;
 
         //Cursor points to a location in your results
         Cursor c = getAllDataOrderByPoint();
         //Move to the first row in your results
         c.moveToFirst();
-        List<player> thePlayerList = new ArrayList<player>();
+        List<player> playerNameList  = new ArrayList<>();
 
         //Position after the last row means the end of the results
         while (!c.isAfterLast()) {
@@ -119,19 +113,39 @@ public class playerDBHandler extends SQLiteOpenHelper {
             draw = c.getInt(c.getColumnIndex(COLUMN_DRAW));
             point = c.getInt(c.getColumnIndex(COLUMN_POINT));
             c.moveToNext();
-            thePlayerList.add(new player(name, matchPlayed, win, loss, draw, point));
+            playerNameList.add(new player(name, matchPlayed, win, loss, draw, point));
         }
 
-        return thePlayerList;
+        return playerNameList;
+    }
+
+
+    public HashMap<String, player> getPlayersInHashMap() {
+        String name;
+        int win, matchPlayed, loss, draw, point;
+
+        //Cursor points to a location in your results
+        Cursor c = getAllDataOrderByPoint();
+        //Move to the first row in your results
+        c.moveToFirst();
+        HashMap<String, player> playerNameHashMap  = new HashMap<>();
+
+        //Position after the last row means the end of the results
+        while (!c.isAfterLast()) {
+            name = c.getString(c.getColumnIndex(COLUMN_NAME));
+            matchPlayed = c.getInt(c.getColumnIndex(COLUMN_MATCHPLAYED));
+            win = c.getInt(c.getColumnIndex(COLUMN_WIN));
+            loss = c.getInt(c.getColumnIndex(COLUMN_LOSS));
+            draw = c.getInt(c.getColumnIndex(COLUMN_DRAW));
+            point = c.getInt(c.getColumnIndex(COLUMN_POINT));
+            c.moveToNext();
+            playerNameHashMap.put(name, new player(name, matchPlayed, win, loss, draw, point));
+        }
+
+        return playerNameHashMap;
     }
 
     void deleteAll() {
         db.delete(TABLE_PLAYER, null, null);
     }
-
-    public void updatePointTable(String thePlayer, String W, String MP, String L, String D, String P) {
-        String buildSQL = "UPDATE " + TABLE_PLAYER + " SET  ='" + W + " WHERE " + COLUMN_NAME + " = " + thePlayer;
-        db.rawQuery(buildSQL, null);
-    }
-
 }

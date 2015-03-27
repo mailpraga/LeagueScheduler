@@ -19,13 +19,11 @@
         </activity>
         <activity
             android:name=".leagueMatchTable"
-            android:launchMode="singleInstance"
             android:label="@string/title_activity_league_match_table"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".pointTable"
-            android:launchMode="singleInstance"
             android:label="@string/title_activity_point_table" >
         </activity>
     </application>

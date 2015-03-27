@@ -5,6 +5,7 @@
     android:id="@+id/custom_matchtablerow">
 
     <GridLayout
+        android:id="@+id/matchGridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

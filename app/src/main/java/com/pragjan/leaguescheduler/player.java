@@ -18,28 +18,24 @@ public class player {
 
     public player(String name, int matchPlayed, int win, int loss, int draw, int point){
         this._name = name;
-        this._matchPartner = new ArrayList<String>();
-        this._NumEnemy = 0;
-        this._point = 55;
-        this._matchPlayed = 11;
-        this._win = 22;
-        this._loss = 33;
-        this._draw = 44;
+        this._matchPartner = new ArrayList<>();
+        this._NumEnemy = matchPlayed;
+        this._point = point;
+        this._matchPlayed = matchPlayed;
+        this._win = win;
+        this._loss = loss;
+        this._draw = draw;
     }
 
     public player(String name, int NumPlayer/*, int Round*/){
         this._name = name;
-        this._matchPartner = new ArrayList<String>();
+        this._matchPartner = new ArrayList<>();
         this._NumEnemy = NumPlayer-1;
         this._point = 0;
         this._matchPlayed = 0;
         this._win = 0;
         this._loss = 0;
         this._draw = 0;
-    }
-
-    public void set_id(int _id) {
-        this._id = _id;
     }
 
     public List<String> get_matchPartner() {
@@ -53,6 +49,24 @@ public class player {
         List<String> alist = this.get_matchPartner();
         alist.add(matchPartner);
         this.set_matchPartner(alist);
+    }
+
+    public void matchDraw(){
+        set_draw(get_draw() + 1);
+        set_matchPlayed(get_matchPlayed() + 1);
+        set_point(get_point() + 2);
+    }
+
+    public void matchWin(){
+        set_win(get_win() + 1);
+        set_matchPlayed(get_matchPlayed() + 1);
+        set_point(get_point() + 3);
+    }
+
+    public void matchLoss(){
+        set_loss(get_loss() + 1);
+        set_matchPlayed(get_matchPlayed() + 1);
+        set_point(get_point() + 1);
     }
 
     public int get_point() {
@@ -74,20 +88,12 @@ public class player {
         this._matchPlayed = _matchPlayed;
     }
 
-    public void increaseMatchPlayed(int win){
-        this.set_matchPlayed(this.get_matchPlayed() + 1);
-    }
-
     public int get_win() {
         return _win;
     }
 
     public void set_win(int _win) {
         this._win = _win;
-    }
-
-    public void increaseWin(int win){
-        this.set_win(this.get_win()+1);
     }
 
     public int get_loss() {
@@ -97,9 +103,6 @@ public class player {
     public void set_loss(int _loss) {
         this._loss = _loss;
     }
-    public void increaseLoss(int win){
-        this.set_loss(this.get_loss() + 1);
-    }
 
     public int get_draw() {
         return _draw;
@@ -107,14 +110,6 @@ public class player {
 
     public void set_draw(int _draw) {
         this._draw = _draw;
-    }
-
-    public void increaseDraw(int win){
-        this.set_draw(this.get_draw() + 1);
-    }
-
-    public int get_id() {
-        return _id;
     }
 
     public String get_name() {
@@ -132,11 +127,7 @@ public class player {
         if (partner.size() < this.get_NumEnemy()) {
             return partner.contains(thePlayer.get_name());
         } else {
-            if (Collections.frequency(partner, thePlayer.get_name()) == 1) {
-                return false;
-            } else {
-                return true;
-            }
+            return Collections.frequency(partner, thePlayer.get_name()) != 1;
         }
     }
 

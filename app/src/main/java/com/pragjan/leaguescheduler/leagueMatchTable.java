@@ -4,19 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 public class leagueMatchTable extends Activity {
 
     private playerDBHandler pdbHandler;
-    private matchDBHandler mdbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,83 +22,73 @@ public class leagueMatchTable extends Activity {
         setContentView(R.layout.activity_league_match_table);
 
         pdbHandler = playerDBHandler.getInstance(this);
-        mdbHandler = matchDBHandler.getInstance(this);
+        matchDBHandler mdbHandler = matchDBHandler.getInstance(this);
 
         Bundle enterPlayerActivity = getIntent().getExtras();
-        if(enterPlayerActivity == null){
+        if (enterPlayerActivity == null) {
             return;
         }
-        int TotalNumberOfMatch = enterPlayerActivity.getInt("TotalNumberOfMatch");
 
-        List<match> arrayOfMatch = new ArrayList<match>();
+        List<match> arrayOfMatch;
         arrayOfMatch = mdbHandler.getMatches();
 
         ListAdapter matchTableAdapter = new custom_matchTableAdapter(this, arrayOfMatch);
         ListView leagueMatchTableListView = (ListView) findViewById(R.id.leagueMatchTableListView);
         leagueMatchTableListView.setAdapter(matchTableAdapter);
-        /*
-        final ListView matchListView = (ListView) findViewById(R.id.leagueMatchTableListView);
-        View macthView;
 
-        for(int item = 0; item < matchListView.getAdapter().getCount(); item++) {
-            macthView = matchListView.getChildAt(item);
-            final EditText hGoal = (EditText) macthView.findViewById(R.id.homeGoal);
-            final EditText gGoal = (EditText) macthView.findViewById(R.id.guestGoal);
-            final TextView p1 = (TextView) macthView.findViewById(R.id.textView1);
-            final TextView p2 = (TextView) macthView.findViewById(R.id.textView2);
-            final TextView p3 = (TextView) macthView.findViewById(R.id.textView3);
-            final TextView p4 = (TextView) macthView.findViewById(R.id.textView4);
+        Button goToPointTableButton = (Button) findViewById(R.id.goToPointTableButton);
+        goToPointTableButton.setOnClickListener(new Button.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        Intent i = new Intent(getApplicationContext(), pointTable.class);
+                                                        calculatePointTable();
+                                                        startActivityForResult(i, 0);
+                                                    }
+                                                }
+        );
+    }
 
-            hGoal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    public void calculatePointTable() {
 
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
-                        String homeGoal = hGoal.getText().toString();
-                        String guestGoal = gGoal.getText().toString();
-                        if(!homeGoal.isEmpty() &&
-                            (!guestGoal.isEmpty())){
-                            p1.getText().toString()
-                            pdbHandler.
-                        }
-                    }
-                }
-            });
-            */
+        HashMap<String, player> arrayOfPlayers;
+        arrayOfPlayers = pdbHandler.getPlayersInHashMap();
+        for (Map.Entry<String, player> entry : arrayOfPlayers.entrySet()) {
+            entry.getValue().reset();
         }
 
-    public void goToPointTable(View v) {
-        Intent i = new Intent(this, pointTable.class);
+        final ListView matchListView = (ListView) findViewById(R.id.leagueMatchTableListView);
+        match theMatch;
 
-        List<player> arrayOfPlayers = new ArrayList<player>();
-        arrayOfPlayers = pdbHandler.getPlayers();
+        for (int item = 0; item < matchListView.getAdapter().getCount(); item++) {
 
-        ListView matchListView = (ListView) findViewById(R.id.leagueMatchTableListView);
-        View matchView;
+            theMatch = (match) matchListView.getAdapter().getItem(item);
+            int homeGoal = theMatch.get_homeGoal();
+            int guestGoal = theMatch.get_guestGoal();
+            String home1 = theMatch.get_home1();
+            String home2 = theMatch.get_home2();
+            String guest1 = theMatch.get_guest1();
+            String guest2 = theMatch.get_guest2();
 
-        for(int item = 0; item < matchListView.getAdapter().getCount(); item++) {
-            matchView = matchListView.getChildAt(item);
-            EditText hGoal = (EditText) matchView.findViewById(R.id.homeGoal);
-            EditText gGoal = (EditText) matchView.findViewById(R.id.guestGoal);
-            TextView p1 = (TextView) matchView.findViewById(R.id.textView1);
-            TextView p2 = (TextView) matchView.findViewById(R.id.textView2);
-            TextView p3 = (TextView) matchView.findViewById(R.id.textView3);
-            TextView p4 = (TextView) matchView.findViewById(R.id.textView4);
-
-            String homeGoal = hGoal.getText().toString();
-            String guestGoal = gGoal.getText().toString();
-            if(!homeGoal.isEmpty() && (!guestGoal.isEmpty())) {
-                if(Integer.valueOf(homeGoal) == Integer.valueOf(guestGoal)){
-
-                }else if(Integer.valueOf(homeGoal) > Integer.valueOf(guestGoal)) {
-
-                }else {
-
+            if ((homeGoal != -1) && (guestGoal != -1)) {
+                if (homeGoal == guestGoal) {
+                    arrayOfPlayers.get(home1).matchDraw();
+                    arrayOfPlayers.get(home2).matchDraw();
+                    arrayOfPlayers.get(guest1).matchDraw();
+                    arrayOfPlayers.get(guest2).matchDraw();
+                } else if (homeGoal > guestGoal) {
+                    arrayOfPlayers.get(home1).matchWin();
+                    arrayOfPlayers.get(home2).matchWin();
+                    arrayOfPlayers.get(guest1).matchLoss();
+                    arrayOfPlayers.get(guest2).matchLoss();
+                } else {
+                    arrayOfPlayers.get(home1).matchLoss();
+                    arrayOfPlayers.get(home2).matchLoss();
+                    arrayOfPlayers.get(guest1).matchWin();
+                    arrayOfPlayers.get(guest2).matchWin();
                 }
             }
         }
-
-        startActivity(i);
+        pdbHandler.deleteAll();
+        pdbHandler.addPlayerHashMap(arrayOfPlayers);
     }
-
 }

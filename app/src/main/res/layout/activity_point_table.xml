@@ -115,8 +115,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="League Match Table"
-        android:id="@+id/goToleagueMatchTable"
-        android:onClick="goToleagueMatchTable"
+        android:id="@+id/goToLeagueTableButton"
         android:nestedScrollingEnabled="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

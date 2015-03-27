@@ -10,25 +10,26 @@ import android.text.TextWatcher;
 import android.text.Editable;
 
 public class custom_enterplayernameAdapter extends ArrayAdapter<String> {
-private String[] food;
-    public custom_enterplayernameAdapter(Context context, String[] food) {
-        super(context, R.layout.custom_enterplayernamerow, food);
-        this.food = food;
+private String[] PlayerName;
+    public custom_enterplayernameAdapter(Context context, String[] PlayerName) {
+        super(context, R.layout.custom_enterplayernamerow, PlayerName);
+        this.PlayerName = PlayerName;
     }
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        if (food != null && food.length != 0) {
-            return food.length;
-        }
-        return 0;
+       return PlayerName.length;
     }
+
+    public void setListData(String[] data){
+        PlayerName = data;
+    }
+
 
     @Override
     public String getItem(int position) {
         // TODO Auto-generated method stub
-        return food[position];
+        return PlayerName[position];
     }
 
     @Override
@@ -54,7 +55,9 @@ private String[] food;
         }
         holder.ref = position;
 
-        String playerNumber = getItem(position);
+        PlayerName[position] = "Player" + (position+1);
+        holder.enterPlayerNameEditText.setText(PlayerName[position]);
+
         holder.enterPlayerNameEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -72,8 +75,7 @@ private String[] food;
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
-                food[holder.ref] = arg0.toString();
+                PlayerName[holder.ref] = arg0.toString();
             }
         });
         return convertView;

@@ -15,14 +15,16 @@ public class matchDBHandler extends SQLiteOpenHelper {
     private static matchDBHandler sInstance;
     private SQLiteDatabase db = null;
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "matchDB.db";
     public static final String TABLE_MATCH = "MATCH";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_HOME1 = "home1";
     public static final String COLUMN_HOME2 = "home2";
+    public static final String COLUMN_HOMEGOAL = "homeGoal";
     public static final String COLUMN_GUEST1 = "guest1";
     public static final String COLUMN_GUEST2 = "guest2";
+    public static final String COLUMN_GUESTGOAL = "guestGoal";
 
     public static synchronized matchDBHandler getInstance(Context context) {
 
@@ -47,8 +49,10 @@ public class matchDBHandler extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_HOME1 + " TEXT, " +
                 COLUMN_HOME2 + " TEXT, " +
+                COLUMN_HOMEGOAL + " INTEGER, " +
                 COLUMN_GUEST1 + " TEXT, " +
-                COLUMN_GUEST2 + " TEXT " +
+                COLUMN_GUEST2 + " TEXT, " +
+                COLUMN_GUESTGOAL + " INTEGER " +
                 ");";
         db.execSQL(query);
     }
@@ -76,32 +80,35 @@ public class matchDBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_HOME1, theMatch.get_home1());
         values.put(COLUMN_HOME2, theMatch.get_home2());
+        values.put(COLUMN_HOMEGOAL, theMatch.get_homeGoal());
         values.put(COLUMN_GUEST1, theMatch.get_guest1());
         values.put(COLUMN_GUEST2, theMatch.get_guest2());
+        values.put(COLUMN_GUESTGOAL, theMatch.get_guestGoal());
 
         db.insert(TABLE_MATCH, null, values);
     }
 
     public List<match> getMatches() {
-        String home1 = "";
-        String home2 = "";
-        String guest1 = "";
-        String guest2 = "";
+        String home1, home2, guest1, guest2;
+        int homeGoal, guestGoal;
+
 
         //Cursor points to a location in your results
         Cursor c = getAllData();
         //Move to the first row in your results
         c.moveToFirst();
-        List<match> theMatchList = new ArrayList<match>();
+        List<match> theMatchList = new ArrayList<>();
 
         //Position after the last row means the end of the results
         while (!c.isAfterLast()) {
             home1 = c.getString(c.getColumnIndex(COLUMN_HOME1));
             home2 = c.getString(c.getColumnIndex(COLUMN_HOME2));
+            homeGoal = c.getInt(c.getColumnIndex(COLUMN_HOMEGOAL));
             guest1 = c.getString(c.getColumnIndex(COLUMN_GUEST1));
             guest2 = c.getString(c.getColumnIndex(COLUMN_GUEST2));
+            guestGoal = c.getInt(c.getColumnIndex(COLUMN_GUESTGOAL));
             c.moveToNext();
-            theMatchList.add(new match(home1, home2, guest1, guest2));
+            theMatchList.add(new match(home1, home2, homeGoal, guest1, guest2, guestGoal));
         }
 
         return theMatchList;
