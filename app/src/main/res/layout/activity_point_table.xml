@@ -14,11 +14,98 @@
         android:id="@+id/pointTableTextView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="wrap_content"
+        android:id="@+id/titleLinearLayout"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pointTableTextView"
+        android:layout_alignRight="@+id/pointTableListView"
+        android:layout_alignEnd="@+id/pointTableListView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/playerNameConstant"
+        android:text="Player"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/border"
+        android:layout_marginTop="2dp" />
+    <TextView
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/matchPlayedConstant"
+        android:text="M"
+        android:background="@drawable/border"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="2dp" />
+    <TextView
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/winConstant"
+        android:text="W"
+        android:background="@drawable/border"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="2dp" />
+    <TextView
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/lossConstant"
+        android:text="L"
+        android:background="@drawable/border"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="2dp" />
+    <TextView
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/drawConstant"
+        android:text="D"
+        android:background="@drawable/border"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="2dp" />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/goalDiffConstant"
+            android:background="@drawable/border"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" />
+        android:layout_marginBottom="2dp" />
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/pointConstant"
+            android:text="P"
+            android:background="@drawable/border"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="2dp" />
+    </LinearLayout>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/pointTableListView"
-        android:layout_below="@+id/pointTableTextView"
+        android:layout_below="@+id/titleLinearLayout"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
         android:descendantFocusability="beforeDescendants"
@@ -33,5 +120,16 @@
         android:nestedScrollingEnabled="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/pointTextView"
+        android:background="@drawable/border"
+        android:layout_alignTop="@+id/pointTableListView"
+        android:layout_toRightOf="@+id/goToleagueMatchTable"
+        android:layout_toEndOf="@+id/goToleagueMatchTable" />
+
 
 </RelativeLayout>

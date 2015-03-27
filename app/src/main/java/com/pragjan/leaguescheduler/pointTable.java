@@ -10,31 +10,28 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class pointTable extends Activity {
-
+    private playerDBHandler pdbHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_table);
 
-        //Bundle MainActivity = getIntent().getExtras();
-        //if(MainActivity == null){
-        //    return;
-        //}
+        pdbHandler = playerDBHandler.getInstance(this);
 
-        ArrayList<player> arrayOfPlayer = new ArrayList<player>();
-        arrayOfPlayer.add(new player("Praga",4));
+        List<player> arrayOfPlayers = new ArrayList<player>();
+        arrayOfPlayers = pdbHandler.getPlayers();
 
-        ListAdapter pointTableAdapter = new custom_pointTableAdapter(this,arrayOfPlayer);
+        ListAdapter pointTableAdapter = new custom_pointTableAdapter(this,arrayOfPlayers);
         ListView pointTableListView = (ListView) findViewById(R.id.pointTableListView);
         pointTableListView.setAdapter(pointTableAdapter);
     }
 
     public void goToleagueMatchTable(View v) {
         Intent i = new Intent(this, leagueMatchTable.class);
-
         startActivity(i);
     }
 

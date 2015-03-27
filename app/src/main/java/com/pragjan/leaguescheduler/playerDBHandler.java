@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,15 +17,11 @@ public class playerDBHandler extends SQLiteOpenHelper {
     private static playerDBHandler sInstance;
     private SQLiteDatabase db = null;
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "playerDB.db";
     public static final String TABLE_PLAYER = "player";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_MATCHPARTNER = "matchPartner";
-    public static final String COLUMN_MATCHENEMY = "matchEnemy";
-    public static final String COLUMN_MATCHPARTNERIND = "matchPartnerInd";
-    public static final String COLUMN_MATCHENEMYND = "matchEnemyInd";
     public static final String COLUMN_MATCHPLAYED = "matchPlayed";
     public static final String COLUMN_WIN = "win";
     public static final String COLUMN_LOSS = "loss";
@@ -53,10 +50,6 @@ public class playerDBHandler extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TABLE_PLAYER + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " +
-                COLUMN_MATCHPARTNER + " TEXT, " +
-                COLUMN_MATCHENEMY + " TEXT, " +
-                COLUMN_MATCHPARTNERIND + " INTEGER, " +
-                COLUMN_MATCHENEMYND + " INTEGER, " +
                 COLUMN_WIN + " INTEGER, " +
                 COLUMN_MATCHPLAYED + " INTEGER, " +
                 COLUMN_LOSS + " INTEGER, " +
@@ -72,8 +65,8 @@ public class playerDBHandler extends SQLiteOpenHelper {
             db.close();
     }
 
-    public Cursor getAllData() {
-        String buildSQL = "SELECT * FROM " + TABLE_PLAYER;
+    public Cursor getAllDataOrderByPoint() {
+        String buildSQL = "SELECT * FROM " + TABLE_PLAYER + " ORDER BY " + COLUMN_POINT + " DESC";
         return db.rawQuery(buildSQL, null);
     }
 
@@ -87,131 +80,58 @@ public class playerDBHandler extends SQLiteOpenHelper {
     public void addPlayer(player thePlayer) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, thePlayer.get_name());
-        values.put(COLUMN_MATCHPARTNER, TextUtils.join(", ", thePlayer.get_matchPartner()));
-        values.put(COLUMN_MATCHENEMY, TextUtils.join(", ", thePlayer.get_matchEnemy()));
-        values.put(COLUMN_MATCHPARTNERIND, thePlayer.get_matchPartnerInd());
-        values.put(COLUMN_MATCHENEMYND, thePlayer.get_matchEnemyInd());
         values.put(COLUMN_WIN, thePlayer.get_win());
         values.put(COLUMN_MATCHPLAYED, thePlayer.get_matchPlayed());
         values.put(COLUMN_LOSS, thePlayer.get_loss());
         values.put(COLUMN_DRAW, thePlayer.get_draw());
         values.put(COLUMN_POINT, thePlayer.get_point());
 
-        SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_PLAYER, null, values);
-        db.close();
+    }
+
+    public void addPlayerList(List<player> thePlayerList){
+        for(int i = 0; i < thePlayerList.size();i++){
+            addPlayer(thePlayerList.get(i));
+        }
+    }
+
+
+    public List<player> getPlayers() {
+        String name = "";
+        int win = 0;
+        int matchPlayed = 0;
+        int loss = 0;
+        int draw = 0;
+        int point = 0;
+
+        //Cursor points to a location in your results
+        Cursor c = getAllDataOrderByPoint();
+        //Move to the first row in your results
+        c.moveToFirst();
+        List<player> thePlayerList = new ArrayList<player>();
+
+        //Position after the last row means the end of the results
+        while (!c.isAfterLast()) {
+            name = c.getString(c.getColumnIndex(COLUMN_NAME));
+            matchPlayed = c.getInt(c.getColumnIndex(COLUMN_MATCHPLAYED));
+            win = c.getInt(c.getColumnIndex(COLUMN_WIN));
+            loss = c.getInt(c.getColumnIndex(COLUMN_LOSS));
+            draw = c.getInt(c.getColumnIndex(COLUMN_DRAW));
+            point = c.getInt(c.getColumnIndex(COLUMN_POINT));
+            c.moveToNext();
+            thePlayerList.add(new player(name, matchPlayed, win, loss, draw, point));
+        }
+
+        return thePlayerList;
     }
 
     void deleteAll() {
-        SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_PLAYER, null, null);
-        db.close();
     }
 
-    //Delete a product from the database
-    public void deletePlayer(String thePlayerName) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_PLAYER + " WHERE " + COLUMN_NAME + "=\"" + thePlayerName + "\";");
-        db.close();
+    public void updatePointTable(String thePlayer, String W, String MP, String L, String D, String P) {
+        String buildSQL = "UPDATE " + TABLE_PLAYER + " SET  ='" + W + " WHERE " + COLUMN_NAME + " = " + thePlayer;
+        db.rawQuery(buildSQL, null);
     }
 
-    public String getColumnPoint(String thePlayerName) {
-        String dbString = "";
-        Cursor c = getCursor(thePlayerName);
-        c.moveToFirst();
-        if (c.getString(c.getColumnIndex("COLUMN_POINT")) != null) {
-            dbString += c.getString(c.getColumnIndex("COLUMN_POINT"));
-        }
-        return dbString;
-    }
-
-    public Cursor getCursor(String thePlayerName) {
-        SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_PLAYER + " WHERE 1" + COLUMN_NAME + "=\"" + thePlayerName + "\"";
-        Cursor c = db.rawQuery(query, null);
-        db.close();
-        return c;
-    }
-
-    public String[] getMatchPartner(long id) {
-        String[] sArray = {""};
-        SQLiteDatabase db = getReadableDatabase();
-        String from[] = {COLUMN_MATCHPARTNER};
-        Cursor c = db.query(TABLE_PLAYER, from, "_id = " + id,
-                null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-            String dbString = c.getString(c.getColumnIndex(COLUMN_MATCHPARTNER));
-            sArray = TextUtils.split(dbString, ", ");
-        }
-        return sArray;
-    }
-
-    public void appendMatchPartner(long id1, long id2) {
-        List<String> sArray = Arrays.asList(getMatchPartner(id1));
-        String s = getName(id2);
-        sArray.add(s);
-        s = TextUtils.join(", ", sArray);
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_MATCHPARTNER, s);
-        db.update(TABLE_PLAYER, cv, "_id = " + id1, null);
-        db.close();
-    }
-
-    public String getName(long id) {
-        String dbString = "";
-        SQLiteDatabase db = getReadableDatabase();
-        String from[] = {COLUMN_NAME};
-        Cursor c = db.query(TABLE_PLAYER, from, "_id = " + id,
-                null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-            dbString = c.getString(c.getColumnIndex(COLUMN_NAME));
-        }
-        return dbString;
-    }
-
-    public int getMatchPartnerInd(long id) {
-        int dbInt = 0;
-        SQLiteDatabase db = getReadableDatabase();
-        String from[] = {COLUMN_MATCHPARTNERIND};
-        Cursor c = db.query(TABLE_PLAYER, from, "_id = " + id,
-                null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-            dbInt = c.getInt(c.getColumnIndex(COLUMN_MATCHPARTNERIND));
-        }
-
-        return dbInt;
-    }
-
-    public boolean findMatchPartner(long id1, long id2) {
-        if (getName(id1).equals(getName(id2))) {
-            return true;
-        }
-        if (getMatchPartnerInd(id1) == 1) {
-            return false;
-        }
-        String[] partner = getMatchPartner(id1);
-        if (getMatchPartnerInd(id1) < partner.length / 2) {
-            return Arrays.asList(partner).contains(getName(id2));
-        } else {
-            if (Collections.frequency(Arrays.asList(partner), getName(id2)) == 1) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
-
-    public long get_lastInsertRowId() {
-        SQLiteDatabase db = getReadableDatabase();
-        final String MY_QUERY = "SELECT last_insert_rowid()";
-        Cursor cur = db.rawQuery(MY_QUERY, null);
-        cur.moveToFirst();
-        long ID = cur.getInt(0);
-        cur.close();
-        return ID;
-    }
 }

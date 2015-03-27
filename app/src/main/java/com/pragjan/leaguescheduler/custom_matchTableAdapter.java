@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class custom_matchTableAdapter extends ArrayAdapter<match> {
     // View lookup cache
@@ -18,7 +18,7 @@ public class custom_matchTableAdapter extends ArrayAdapter<match> {
         TextView guest1;
         TextView guest2;
     }
-    public custom_matchTableAdapter(Context context, ArrayList<match> theMatch) {
+    public custom_matchTableAdapter(Context context, List<match> theMatch) {
         super(context, R.layout.custom_enterplayernamerow, theMatch);
     }
 
@@ -43,7 +43,7 @@ public class custom_matchTableAdapter extends ArrayAdapter<match> {
         }
 
         String matchNoStr = "Match " + (position+1);
-
+        viewHolder.matchNo.setText(matchNoStr);
         viewHolder.home1.setText(theMatch.get_home1());
         viewHolder.home2.setText(theMatch.get_home2());
         viewHolder.guest1.setText(theMatch.get_guest1());

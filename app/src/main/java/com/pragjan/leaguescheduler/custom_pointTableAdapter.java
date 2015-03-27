@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class custom_pointTableAdapter extends ArrayAdapter<player> {
     // View lookup cache
@@ -16,11 +17,12 @@ public class custom_pointTableAdapter extends ArrayAdapter<player> {
         TextView matchPlayed;
         TextView win;
         TextView loss;
+        TextView draw;
         TextView gDiff;
         TextView point;
     }
 
-    public custom_pointTableAdapter(Context context, ArrayList<player> thePlayer) {
+    public custom_pointTableAdapter(Context context, List<player> thePlayer) {
         super(context, R.layout.custom_pointtablerow, thePlayer);
     }
 
@@ -39,6 +41,7 @@ public class custom_pointTableAdapter extends ArrayAdapter<player> {
             viewHolder.matchPlayed = (TextView) convertView.findViewById(R.id.matchPlayedTextView);
             viewHolder.win = (TextView) convertView.findViewById(R.id.winTextView);
             viewHolder.loss = (TextView) convertView.findViewById(R.id.lossTextView);
+            viewHolder.draw = (TextView) convertView.findViewById(R.id.drawTextView);
             viewHolder.gDiff = (TextView) convertView.findViewById(R.id.goalDiffTextView);
             viewHolder.point = (TextView) convertView.findViewById(R.id.pointTextView);
             convertView.setTag(viewHolder);
@@ -48,11 +51,12 @@ public class custom_pointTableAdapter extends ArrayAdapter<player> {
 
 
         viewHolder.playerName.setText(thePlayer.get_name());
-        viewHolder.matchPlayed.setInputType(thePlayer.get_matchPlayed());
-        viewHolder.win.setInputType(thePlayer.get_win());
-        viewHolder.loss.setInputType(thePlayer.get_loss());
+        viewHolder.matchPlayed.setText("" + thePlayer.get_matchPlayed());
+        viewHolder.win.setText("" + thePlayer.get_win());
+        viewHolder.loss.setText("" + thePlayer.get_loss());
+        viewHolder.draw.setText("" + thePlayer.get_draw());
         viewHolder.gDiff.setText("");
-        viewHolder.point.setInputType(thePlayer.get_point());
+        viewHolder.point.setText("" + thePlayer.get_point());
         return convertView;
     }
 }
