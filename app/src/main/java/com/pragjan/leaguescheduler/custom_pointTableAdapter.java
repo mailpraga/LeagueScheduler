@@ -46,7 +46,7 @@ public class custom_pointTableAdapter extends ArrayAdapter<player> {
         viewHolder.win.setText("" + thePlayer.get_win());
         viewHolder.loss.setText("" + thePlayer.get_loss());
         viewHolder.draw.setText("" + thePlayer.get_draw());
-        viewHolder.gDiff.setText("");
+        viewHolder.gDiff.setText("" + thePlayer.get_goalDiff());
         viewHolder.point.setText("" + thePlayer.get_point());
         return convertView;
     }

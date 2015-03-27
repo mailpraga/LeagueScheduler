@@ -76,15 +76,15 @@ public class leagueMatchTable extends Activity {
                     arrayOfPlayers.get(guest1).matchDraw();
                     arrayOfPlayers.get(guest2).matchDraw();
                 } else if (homeGoal > guestGoal) {
-                    arrayOfPlayers.get(home1).matchWin();
-                    arrayOfPlayers.get(home2).matchWin();
-                    arrayOfPlayers.get(guest1).matchLoss();
-                    arrayOfPlayers.get(guest2).matchLoss();
+                    arrayOfPlayers.get(home1).matchWin((homeGoal - guestGoal));
+                    arrayOfPlayers.get(home2).matchWin((homeGoal - guestGoal));
+                    arrayOfPlayers.get(guest1).matchLoss((homeGoal - guestGoal));
+                    arrayOfPlayers.get(guest2).matchLoss((homeGoal - guestGoal));
                 } else {
-                    arrayOfPlayers.get(home1).matchLoss();
-                    arrayOfPlayers.get(home2).matchLoss();
-                    arrayOfPlayers.get(guest1).matchWin();
-                    arrayOfPlayers.get(guest2).matchWin();
+                    arrayOfPlayers.get(home1).matchLoss((guestGoal - homeGoal));
+                    arrayOfPlayers.get(home2).matchLoss((guestGoal - homeGoal));
+                    arrayOfPlayers.get(guest1).matchWin((guestGoal - homeGoal));
+                    arrayOfPlayers.get(guest2).matchWin((guestGoal - homeGoal));
                 }
             }
         }

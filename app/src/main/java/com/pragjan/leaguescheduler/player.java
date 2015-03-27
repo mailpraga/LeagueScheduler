@@ -11,16 +11,18 @@ public class player {
     private List<String> _matchPartner;
     private int _NumEnemy;
     private int _point;
+    private int _goalDiff;
     private int _matchPlayed;
     private int _win;
     private int _loss;
     private int _draw;
 
-    public player(String name, int matchPlayed, int win, int loss, int draw, int point){
+    public player(String name, int matchPlayed, int win, int loss, int draw, int goalDiff, int point) {
         this._name = name;
         this._matchPartner = new ArrayList<>();
         this._NumEnemy = matchPlayed;
         this._point = point;
+        this._goalDiff = goalDiff;
         this._matchPlayed = matchPlayed;
         this._win = win;
         this._loss = loss;
@@ -32,6 +34,7 @@ public class player {
         this._matchPartner = new ArrayList<>();
         this._NumEnemy = NumPlayer-1;
         this._point = 0;
+        this._goalDiff = 0;
         this._matchPlayed = 0;
         this._win = 0;
         this._loss = 0;
@@ -45,6 +48,7 @@ public class player {
     public void set_matchPartner(List<String> _matchPartner) {
         this._matchPartner = _matchPartner;
     }
+
     public void appendMatchPartner(String matchPartner) {
         List<String> alist = this.get_matchPartner();
         alist.add(matchPartner);
@@ -57,16 +61,18 @@ public class player {
         set_point(get_point() + 2);
     }
 
-    public void matchWin(){
+    public void matchWin(int goal) {
         set_win(get_win() + 1);
         set_matchPlayed(get_matchPlayed() + 1);
         set_point(get_point() + 3);
+        set_goalDiff(get_goalDiff() + goal);
     }
 
-    public void matchLoss(){
+    public void matchLoss(int goal) {
         set_loss(get_loss() + 1);
         set_matchPlayed(get_matchPlayed() + 1);
         set_point(get_point() + 1);
+        set_goalDiff(get_goalDiff() - goal);
     }
 
     public int get_point() {
@@ -75,6 +81,14 @@ public class player {
 
     public void set_point(int _point) {
         this._point = _point;
+    }
+
+    public int get_goalDiff() {
+        return _goalDiff;
+    }
+
+    public void set_goalDiff(int _goalDiff) {
+        this._goalDiff = _goalDiff;
     }
 
     public int get_NumEnemy() {

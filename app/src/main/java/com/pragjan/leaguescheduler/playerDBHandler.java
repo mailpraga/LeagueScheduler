@@ -1,10 +1,10 @@
 package com.pragjan.leaguescheduler;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.Cursor;
-import android.content.Context;
-import android.content.ContentValues;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,11 +13,6 @@ import java.util.Map;
 
 public class playerDBHandler extends SQLiteOpenHelper {
 
-    private static playerDBHandler sInstance;
-    private SQLiteDatabase db = null;
-
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "playerDB.db";
     public static final String TABLE_PLAYER = "player";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
@@ -25,7 +20,18 @@ public class playerDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_WIN = "win";
     public static final String COLUMN_LOSS = "loss";
     public static final String COLUMN_DRAW = "draw";
+    public static final String COLUMN_GOALDIFF = "goalDiff";
     public static final String COLUMN_POINT = "point";
+    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "playerDB.db";
+    private static playerDBHandler sInstance;
+    private SQLiteDatabase db = null;
+
+    //We need to pass database information along to superclass
+    private playerDBHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        db = getWritableDatabase();
+    }
 
     public static synchronized playerDBHandler getInstance(Context context) {
 
@@ -38,12 +44,6 @@ public class playerDBHandler extends SQLiteOpenHelper {
         return sInstance;
     }
 
-    //We need to pass database information along to superclass
-    private playerDBHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        db = getWritableDatabase();
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_PLAYER + "(" +
@@ -53,6 +53,7 @@ public class playerDBHandler extends SQLiteOpenHelper {
                 COLUMN_MATCHPLAYED + " INTEGER, " +
                 COLUMN_LOSS + " INTEGER, " +
                 COLUMN_DRAW + " INTEGER, " +
+                COLUMN_GOALDIFF + " INTEGER, " +
                 COLUMN_POINT + " INTEGER " +
                 ");";
         db.execSQL(query);
@@ -83,6 +84,7 @@ public class playerDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_MATCHPLAYED, thePlayer.get_matchPlayed());
         values.put(COLUMN_LOSS, thePlayer.get_loss());
         values.put(COLUMN_DRAW, thePlayer.get_draw());
+        values.put(COLUMN_GOALDIFF, thePlayer.get_goalDiff());
         values.put(COLUMN_POINT, thePlayer.get_point());
 
         db.insert(TABLE_PLAYER, null, values);
@@ -96,7 +98,7 @@ public class playerDBHandler extends SQLiteOpenHelper {
 
     public List<player> getPlayersInList() {
         String name;
-        int win, matchPlayed, loss, draw, point;
+        int win, matchPlayed, loss, draw, goalDiff, point;
 
         //Cursor points to a location in your results
         Cursor c = getAllDataOrderByPoint();
@@ -111,9 +113,10 @@ public class playerDBHandler extends SQLiteOpenHelper {
             win = c.getInt(c.getColumnIndex(COLUMN_WIN));
             loss = c.getInt(c.getColumnIndex(COLUMN_LOSS));
             draw = c.getInt(c.getColumnIndex(COLUMN_DRAW));
+            goalDiff = c.getInt(c.getColumnIndex(COLUMN_GOALDIFF));
             point = c.getInt(c.getColumnIndex(COLUMN_POINT));
             c.moveToNext();
-            playerNameList.add(new player(name, matchPlayed, win, loss, draw, point));
+            playerNameList.add(new player(name, matchPlayed, win, loss, draw, goalDiff, point));
         }
 
         return playerNameList;
@@ -122,7 +125,7 @@ public class playerDBHandler extends SQLiteOpenHelper {
 
     public HashMap<String, player> getPlayersInHashMap() {
         String name;
-        int win, matchPlayed, loss, draw, point;
+        int win, matchPlayed, loss, draw, goalDiff, point;
 
         //Cursor points to a location in your results
         Cursor c = getAllDataOrderByPoint();
@@ -137,9 +140,10 @@ public class playerDBHandler extends SQLiteOpenHelper {
             win = c.getInt(c.getColumnIndex(COLUMN_WIN));
             loss = c.getInt(c.getColumnIndex(COLUMN_LOSS));
             draw = c.getInt(c.getColumnIndex(COLUMN_DRAW));
+            goalDiff = c.getInt(c.getColumnIndex(COLUMN_GOALDIFF));
             point = c.getInt(c.getColumnIndex(COLUMN_POINT));
             c.moveToNext();
-            playerNameHashMap.put(name, new player(name, matchPlayed, win, loss, draw, point));
+            playerNameHashMap.put(name, new player(name, matchPlayed, win, loss, draw, goalDiff, point));
         }
 
         return playerNameHashMap;
