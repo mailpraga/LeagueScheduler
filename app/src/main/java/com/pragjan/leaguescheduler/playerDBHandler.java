@@ -65,8 +65,10 @@ public class playerDBHandler extends SQLiteOpenHelper {
             db.close();
     }
 
-    public Cursor getAllDataOrderByPoint() {
-        String buildSQL = "SELECT * FROM " + TABLE_PLAYER + " ORDER BY " + COLUMN_POINT + " DESC";
+    public Cursor getAllDataOrderByPointAndGoalDiff() {
+        String buildSQL = "SELECT * FROM " +
+                "(SELECT * FROM " + TABLE_PLAYER + " ORDER BY " + COLUMN_POINT + " DESC)"
+                + " ORDER BY " + COLUMN_GOALDIFF + " DESC ";
         return db.rawQuery(buildSQL, null);
     }
 
@@ -90,7 +92,7 @@ public class playerDBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_PLAYER, null, values);
     }
 
-    public void addPlayerHashMap(HashMap<String,player> thePlayerHashMap){
+    public void addPlayerHashMap(HashMap<String, player> thePlayerHashMap) {
         for (Map.Entry<String, player> entry : thePlayerHashMap.entrySet()) {
             addPlayer(entry.getValue());
         }
@@ -101,10 +103,10 @@ public class playerDBHandler extends SQLiteOpenHelper {
         int win, matchPlayed, loss, draw, goalDiff, point;
 
         //Cursor points to a location in your results
-        Cursor c = getAllDataOrderByPoint();
+        Cursor c = getAllDataOrderByPointAndGoalDiff();
         //Move to the first row in your results
         c.moveToFirst();
-        List<player> playerNameList  = new ArrayList<>();
+        List<player> playerNameList = new ArrayList<>();
 
         //Position after the last row means the end of the results
         while (!c.isAfterLast()) {
@@ -128,10 +130,10 @@ public class playerDBHandler extends SQLiteOpenHelper {
         int win, matchPlayed, loss, draw, goalDiff, point;
 
         //Cursor points to a location in your results
-        Cursor c = getAllDataOrderByPoint();
+        Cursor c = getAllDataOrderByPointAndGoalDiff();
         //Move to the first row in your results
         c.moveToFirst();
-        HashMap<String, player> playerNameHashMap  = new HashMap<>();
+        HashMap<String, player> playerNameHashMap = new HashMap<>();
 
         //Position after the last row means the end of the results
         while (!c.isAfterLast()) {

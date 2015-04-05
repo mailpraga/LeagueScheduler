@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/playerNameTextView"
         android:id="@+id/enterPlayerNameTextView"
-        android:layout_margin="5dp"
-        android:background="@drawable/border" />
-    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="@string/playerEditText"
-        android:ems="10"
+        android:layout_margin="5dp"
+        android:text="@string/playerNameTextView"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
         android:id="@+id/enterPlayerNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:selectAllOnFocus="true"
+        android:ems="10"
         android:focusable="true"
-        android:background="@drawable/border" />
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:text="@string/playerEditText" />
 
 </LinearLayout>

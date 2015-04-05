@@ -17,4 +17,5 @@
     </string-array>
     <string name="title_activity_league_match_table">leagueMatchTable</string>
     <string name="title_activity_point_table">pointTable</string>
+    <string name="title_activity_current_match">current_match</string>
 </resources>

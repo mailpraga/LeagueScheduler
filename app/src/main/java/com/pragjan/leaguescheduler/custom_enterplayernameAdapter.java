@@ -1,16 +1,17 @@
 package com.pragjan.leaguescheduler;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.text.TextWatcher;
-import android.text.Editable;
 
 public class custom_enterplayernameAdapter extends ArrayAdapter<String> {
-private String[] PlayerName;
+    private String[] PlayerName;
+
     public custom_enterplayernameAdapter(Context context, String[] PlayerName) {
         super(context, R.layout.custom_enterplayernamerow, PlayerName);
         this.PlayerName = PlayerName;
@@ -18,10 +19,10 @@ private String[] PlayerName;
 
     @Override
     public int getCount() {
-       return PlayerName.length;
+        return PlayerName.length;
     }
 
-    public void setListData(String[] data){
+    public void setListData(String[] data) {
         PlayerName = data;
     }
 
@@ -53,9 +54,14 @@ private String[] PlayerName;
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if (position % 2 == 0) {
+            convertView.setBackgroundResource(R.drawable.list_background1);
+        } else {
+            convertView.setBackgroundResource(R.drawable.list_background2);
+        }
         holder.ref = position;
 
-        PlayerName[position] = "Player" + (position+1);
+        PlayerName[position] = "Player" + (position + 1);
         holder.enterPlayerNameEditText.setText(PlayerName[position]);
 
         holder.enterPlayerNameEditText.addTextChangedListener(new TextWatcher() {

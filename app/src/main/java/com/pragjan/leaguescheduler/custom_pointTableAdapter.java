@@ -39,7 +39,11 @@ public class custom_pointTableAdapter extends ArrayAdapter<player> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        if (position % 2 == 0) {
+            convertView.setBackgroundResource(R.drawable.list_background1);
+        } else {
+            convertView.setBackgroundResource(R.drawable.list_background2);
+        }
 
         viewHolder.playerName.setText(thePlayer.get_name());
         viewHolder.matchPlayed.setText("" + thePlayer.get_matchPlayed());
@@ -51,7 +55,7 @@ public class custom_pointTableAdapter extends ArrayAdapter<player> {
         return convertView;
     }
 
-    private  class ViewHolder {
+    private class ViewHolder {
         TextView playerName;
         TextView matchPlayed;
         TextView win;

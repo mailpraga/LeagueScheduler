@@ -40,7 +40,7 @@ public class custom_matchTableAdapter extends ArrayAdapter<match> {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.custom_matchtablerow, parent, false);
-            viewHolder.matchNo = (TextView) convertView.findViewById(R.id.matchNo);
+            viewHolder.matchNo = (TextView) convertView.findViewById(R.id.matchNoTextView);
             viewHolder.home1 = (TextView) convertView.findViewById(R.id.textView1);
             viewHolder.home2 = (TextView) convertView.findViewById(R.id.textView2);
             viewHolder.homeGoal = (EditText) convertView.findViewById(R.id.homeGoal);
@@ -51,14 +51,29 @@ public class custom_matchTableAdapter extends ArrayAdapter<match> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
+        if (position % 2 == 0) {
+            convertView.setBackgroundResource(R.drawable.list_background1);
+        } else {
+            convertView.setBackgroundResource(R.drawable.list_background2);
+        }
         viewHolder.ref = position;
 
-        String matchNoStr = "Match " + (position+1);
-        viewHolder.matchNo.setText(matchNoStr);
+        viewHolder.matchNo.setText(String.valueOf(theMatch.get_matchNo()));
         viewHolder.home1.setText(theMatch.get_home1());
         viewHolder.home2.setText(theMatch.get_home2());
         viewHolder.guest1.setText(theMatch.get_guest1());
         viewHolder.guest2.setText(theMatch.get_guest2());
+        if (theMatch.get_homeGoal() == -1) {
+            viewHolder.homeGoal.setText("");
+        } else {
+            viewHolder.homeGoal.setText(String.valueOf(theMatch.get_homeGoal()));
+        }
+        if (theMatch.get_guestGoal() == -1) {
+            viewHolder.guestGoal.setText("");
+        } else {
+            viewHolder.guestGoal.setText(String.valueOf(theMatch.get_guestGoal()));
+        }
 
         viewHolder.homeGoal.addTextChangedListener(new TextWatcher() {
             @Override
@@ -70,10 +85,14 @@ public class custom_matchTableAdapter extends ArrayAdapter<match> {
             }
             @Override
             public void afterTextChanged(Editable arg0){
-                String value = arg0.toString();
-                if(value != null) {
-                    theMatchList.get(viewHolder.ref).set_homeGoal(Integer.valueOf(value));
+                int IntValue;
+                String StrValue = arg0.toString();
+                if (!StrValue.isEmpty()) {
+                    IntValue = Integer.valueOf(StrValue);
+                } else {
+                    IntValue = -1;
                 }
+                theMatchList.get(viewHolder.ref).set_homeGoal(IntValue);
             }
         });
 
@@ -87,10 +106,14 @@ public class custom_matchTableAdapter extends ArrayAdapter<match> {
             }
             @Override
             public void afterTextChanged(Editable arg0){
-                String value = arg0.toString();
-                if(value != null) {
-                    theMatchList.get(viewHolder.ref).set_guestGoal(Integer.valueOf(value));
+                int IntValue;
+                String StrValue = arg0.toString();
+                if (!StrValue.isEmpty()) {
+                    IntValue = Integer.valueOf(StrValue);
+                } else {
+                    IntValue = -1;
                 }
+                theMatchList.get(viewHolder.ref).set_guestGoal(IntValue);
             }
         });
         return convertView;

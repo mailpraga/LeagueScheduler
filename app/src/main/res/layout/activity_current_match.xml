@@ -6,30 +6,30 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.pragjan.leaguescheduler.leagueMatchTable">
+    tools:context="com.pragjan.leaguescheduler.current_match">
 
     <TextView
-        android:id="@+id/matchScheduletextView"
+        android:id="@+id/currentMatchTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Fixtures"
+        android:text="Match"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ListView
-        android:id="@+id/leagueMatchTableListView"
+        android:id="@+id/currentMatchListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/goToPointTableButton"
-        android:layout_below="@+id/matchScheduletextView"
+        android:layout_above="@+id/getNextMatch"
+        android:layout_below="@+id/currentMatchTextView"
         android:layout_marginTop="20dp"
         android:cacheColorHint="#00000000"
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp" />
 
     <Button
-        android:id="@+id/goToPointTableButton"
+        android:id="@+id/getNextMatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

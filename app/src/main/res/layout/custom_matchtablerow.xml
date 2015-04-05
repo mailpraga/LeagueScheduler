@@ -1,113 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/custom_matchtablerow"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/custom_matchtablerow">
+    android:orientation="horizontal">
 
     <GridLayout
         android:id="@+id/matchGridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="true"
         android:layout_margin="10dp">
 
         <TextView
+            android:id="@+id/matchTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Match 1"
-            android:id="@+id/matchNo"
+            android:layout_column="0"
             android:layout_row="0"
-            android:layout_column="0"
-            android:layout_columnSpan="4"
-            android:background="@drawable/border" />
+            android:text="Match"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
+            android:id="@+id/matchNoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Player1"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
             android:id="@+id/textView1"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:textIsSelectable="false"
-            android:textSize="20dp"
-            android:layout_gravity="top"
-            android:background="@drawable/border" />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Player2"
-            android:id="@+id/textView2"
-            android:layout_row="2"
             android:layout_column="0"
-            android:textSize="20dp"
-            android:background="@drawable/border" />
+            android:layout_gravity="top"
+            android:layout_row="1"
+            android:text="Player1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textIsSelectable="false"
+            android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="2"
+            android:text="Player2"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Vs"
+            android:textSize="20dp" />
+
+        <TextView
             android:id="@+id/vsTextView"
-            android:layout_row="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_column="2"
-            android:layout_rowSpan="3"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
-            android:textSize="22dp"
-            android:background="@drawable/border" />
+            android:layout_row="1"
+            android:layout_rowSpan="3"
+            android:text="Vs"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="22dp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Player3"
             android:id="@+id/textView3"
-            android:layout_row="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_column="4"
-            android:textSize="20dp"
-            android:background="@drawable/border" />
+            android:layout_row="1"
+            android:text="Player3"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="20dp" />
 
 
         <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Player4"
-            android:id="@+id/textView4"
-            android:layout_row="2"
             android:layout_column="4"
-            android:textSize="20dp"
-            android:background="@drawable/border" />
+            android:layout_row="2"
+            android:text="Player4"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="20dp" />
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:inputType="number"
-            android:ems="2"
             android:id="@+id/homeGoal"
-            android:layout_row="1"
-            android:layout_rowSpan="2"
-            android:layout_column="1"
-            android:background="@drawable/border"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginLeft="25dp"
-            android:textAlignment="textEnd" />
-
-        <EditText
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:inputType="number"
-            android:ems="2"
-            android:id="@+id/guestGoal"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_row="1"
             android:layout_rowSpan="2"
+            android:ellipsize="start"
+            android:ems="2"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/guestGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_column="3"
-            android:background="@drawable/border"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center"
+            android:layout_marginRight="20dp"
+            android:layout_row="1"
+            android:layout_rowSpan="2"
+            android:ellipsize="start"
+            android:ems="2"
+            android:gravity="center"
+            android:inputType="number"
+            android:textIsSelectable="false" />
 
 
     </GridLayout>

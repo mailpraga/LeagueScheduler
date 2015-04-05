@@ -11,7 +11,6 @@
         android:layout_marginBottom="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/border"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -22,7 +21,6 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/border"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -33,7 +31,6 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/border"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -44,7 +41,6 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/border"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -55,7 +51,6 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/border"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -67,7 +62,6 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/border"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -79,7 +73,6 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/border"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>

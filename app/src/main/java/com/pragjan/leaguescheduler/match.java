@@ -3,6 +3,7 @@ package com.pragjan.leaguescheduler;
 public class match {
 
     private int _id;
+    private int _matchNo;
     private String _home1;
     private String _home2;
     private int _homeGoal;
@@ -10,8 +11,9 @@ public class match {
     private String _guest2;
     private int _guestGoal;
 
-    public match(String home1, String home2, int homeGoal,
-                 String guest1, String guest2,int guestGoal) {
+    public match(int matchNo, String home1, String home2, int homeGoal,
+                 String guest1, String guest2, int guestGoal) {
+        this._matchNo = matchNo;
         this._home1 = home1;
         this._home2 = home2;
         this._homeGoal = homeGoal;
@@ -19,6 +21,14 @@ public class match {
         this._guest1 = guest1;
         this._guest2 = guest2;
         this._guestGoal = guestGoal;
+    }
+
+    public int get_matchNo() {
+        return _matchNo;
+    }
+
+    public void set_matchNo(int _matchNo) {
+        this._matchNo = _matchNo;
     }
 
     public String get_home1() {
