@@ -87,6 +87,9 @@ public class enterPlayerName extends Activity {
             pdbHandler.addPlayer(thePlayer);
         }
         scheduler(TotalNumberOfMatch, playerNameList);
+        Intent ii = new Intent(this, current_match.class);
+        ii.putExtra("TotalNumberOfMatch", numPlayer);
+
         startActivity(i);
     }
 

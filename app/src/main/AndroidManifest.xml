@@ -20,13 +20,14 @@
         <activity
             android:name=".leagueMatchTable"
             android:label="@string/title_activity_league_match_table"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".pointTable"
-            android:label="@string/title_activity_point_table"></activity>
+            android:label="@string/title_activity_point_table" />
         <activity
             android:name=".current_match"
             android:label="@string/title_activity_current_match"></activity>
+
     </application>
 
 </manifest>
